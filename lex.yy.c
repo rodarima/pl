@@ -361,8 +361,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 2
-#define YY_END_OF_BUFFER 3
+#define YY_NUM_RULES 8
+#define YY_END_OF_BUFFER 9
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -370,11 +370,12 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[23] =
+static yyconst flex_int16_t yy_accept[39] =
     {   0,
-        0,    0,    3,    2,    2,    0,    0,    0,    0,    0,
-        0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-        1,    0
+        6,    6,    9,    6,    8,    6,    6,    6,    6,    6,
+        6,    6,    6,    6,    6,    5,    5,    4,    4,    4,
+        4,    4,    4,    4,    3,    3,    2,    3,    2,    2,
+        2,    2,    2,    2,    2,    1,    2,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -383,11 +384,11 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    4,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    5,    6,    1,    1,    7,    7,    7,
-        7,    7,    7,    7,    7,    7,    7,    1,    1,    1,
-        1,    1,    1,    1,    8,    8,    8,    8,    8,    8,
-        8,    8,    8,    8,    8,    8,    8,    8,    8,    8,
-        8,    8,    8,    8,    8,    8,    8,    8,    8,    8,
+        1,    1,    1,    5,    6,    7,    1,    8,    9,   10,
+       10,   10,   10,   10,   10,   10,   10,    1,    1,    1,
+        1,    1,    1,    1,   11,   11,   11,   11,   11,   11,
+       11,   11,   11,   11,   11,   11,   11,   11,   11,   11,
+       11,   11,   11,   11,   11,   11,   11,   11,   11,   11,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
 
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -409,37 +410,54 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static yyconst flex_int32_t yy_meta[9] =
+static yyconst flex_int32_t yy_meta[12] =
     {   0,
-        1,    2,    2,    2,    1,    1,    1,    1
+        1,    1,    2,    1,    1,    1,    1,    1,    1,    1,
+        1
     } ;
 
-static yyconst flex_int16_t yy_base[27] =
+static yyconst flex_int16_t yy_base[49] =
     {   0,
-       14,   13,   19,   22,   11,   10,    9,    8,    7,    6,
-        5,    5,    2,    7,    0,    4,    0,    2,    2,    0,
-        0,   22,    0,    4,    3,    2
+        0,    8,   75,    0,   76,   11,    0,   14,   17,   20,
+       23,   26,   29,   54,   46,   52,    0,   38,   41,    0,
+       44,   47,   46,   51,   54,   57,   54,    0,    0,   40,
+       58,   59,   37,   62,   33,    0,    7,   76,   72,   13,
+       12,   11,    6,    5,    4,    3,    1,    0
     } ;
 
-static yyconst flex_int16_t yy_def[27] =
+static yyconst flex_int16_t yy_def[49] =
     {   0,
-       23,   23,   22,   22,   22,   22,   22,   22,   22,   22,
-       22,   22,   22,   22,   24,   24,   25,   25,   18,   26,
-       26,    0,   22,   22,   22,   22
+       39,   39,   38,   40,   38,   40,   40,   40,   40,   40,
+       40,   40,   40,   40,   40,   41,   41,   42,   42,   43,
+       44,   44,   22,   45,   46,   46,   47,   48,   47,   47,
+       47,   47,   47,   47,   47,   47,   47,    0,   38,   38,
+       38,   38,   38,   38,   38,   38,   38,   38
     } ;
 
-static yyconst flex_int16_t yy_nxt[31] =
+static yyconst flex_int16_t yy_nxt[88] =
     {   0,
-        4,    4,   21,   18,   16,   20,   19,   17,   15,   14,
-       13,   12,   11,   10,    9,    8,    7,    6,   22,    5,
-        5,    3,   22,   22,   22,   22,   22,   22,   22,   22
+       28,   29,    5,   26,   25,   22,   20,    6,    6,    6,
+        5,   19,   17,    7,   36,    6,    6,    6,    8,    8,
+        8,    9,    9,    9,   10,   10,   10,   11,   11,   11,
+       12,   12,   12,   13,   13,   13,   14,   14,   14,   20,
+       37,   20,   20,   35,   21,   20,   32,   20,   20,   24,
+       20,   23,   20,   18,   20,   27,   16,   28,   27,   15,
+       28,   30,   31,   30,   32,   33,   34,   34,   34,   36,
+       36,   36,    4,    4,   38,    3,   38,   38,   38,   38,
+       38,   38,   38,   38,   38,   38,   38
     } ;
 
-static yyconst flex_int16_t yy_chk[31] =
+static yyconst flex_int16_t yy_chk[88] =
     {   0,
-       23,   23,   26,   25,   24,   19,   18,   16,   14,   13,
-       12,   11,   10,    9,    8,    7,    6,    5,    3,    2,
-        1,   22,   22,   22,   22,   22,   22,   22,   22,   22
+       48,   47,    1,   46,   45,   44,   43,    1,    1,    1,
+        2,   42,   41,   40,   37,    2,    2,    2,    6,    6,
+        6,    8,    8,    8,    9,    9,    9,   10,   10,   10,
+       11,   11,   11,   12,   12,   12,   13,   13,   13,   18,
+       35,   18,   19,   33,   19,   21,   30,   21,   22,   23,
+       22,   22,   24,   16,   24,   25,   15,   25,   26,   14,
+       26,   27,   27,   27,   31,   31,   32,   32,   32,   34,
+       34,   34,   39,   39,    3,   38,   38,   38,   38,   38,
+       38,   38,   38,   38,   38,   38,   38
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -473,7 +491,7 @@ struct list_t
 	size_t n;
 };
 
-#line 477 "lex.yy.c"
+#line 495 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -682,10 +700,10 @@ YY_DECL
 		}
 
 	{
-#line 28 "p1.l"
+#line 30 "p1.l"
 
 
-#line 689 "lex.yy.c"
+#line 707 "lex.yy.c"
 
 	while ( 1 )		/* loops until end-of-file is reached */
 		{
@@ -712,13 +730,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 23 )
+				if ( yy_current_state >= 39 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 22 );
+		while ( yy_base[yy_current_state] != 76 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -744,15 +762,45 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 30 "p1.l"
-{printf("--%s\n", yytext);}
+#line 32 "p1.l"
+{ printf("GOTCHA!\n"); explode(yytext); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 32 "p1.l"
+#line 33 "p1.l"
+{ printf("BAD MARK\n"); }
+	YY_BREAK
+case 3:
+YY_RULE_SETUP
+#line 34 "p1.l"
+{ printf("TAB AFTER NAME PLS\n"); }
+	YY_BREAK
+case 4:
+YY_RULE_SETUP
+#line 35 "p1.l"
+{ printf("BAD NAME\n"); }
+	YY_BREAK
+case 5:
+YY_RULE_SETUP
+#line 36 "p1.l"
+{ printf("TAB AFTER DNI PLS\n"); }
+	YY_BREAK
+case 6:
+YY_RULE_SETUP
+#line 37 "p1.l"
+{ printf("BAD DNI\n"); }
+	YY_BREAK
+case 7:
+YY_RULE_SETUP
+#line 38 "p1.l"
+{ printf("ERROR %s LINE%d\n", yytext, yylineno); exit(1); }
+	YY_BREAK
+case 8:
+YY_RULE_SETUP
+#line 40 "p1.l"
 ECHO;
 	YY_BREAK
-#line 756 "lex.yy.c"
+#line 804 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1045,7 +1093,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 23 )
+			if ( yy_current_state >= 39 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1073,11 +1121,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 23 )
+		if ( yy_current_state >= 39 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 22);
+	yy_is_jam = (yy_current_state == 38);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1747,7 +1795,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 32 "p1.l"
+#line 40 "p1.l"
 
 
 
@@ -1761,6 +1809,17 @@ int list_new(struct list_t *list)
 	list->students[0] = NULL;
 	list->n = 0;
 	return 0;
+}
+
+int explode(char *shit)
+{
+	char *p;
+	p = strtok(shit, "\t\n");
+	while(p != NULL)
+	{
+		printf("HM? %s\n", p);
+		p = strtok(NULL, "\t\n");
+	}
 }
 
 int insert_student(struct student_t **list, struct student_t student)
