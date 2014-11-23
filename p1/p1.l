@@ -132,6 +132,12 @@ NOTA		([0-9]\.[0-9]{1,2}|10\.0{1,2})
 	g.yyline++;
 }
 
+<P2_SEPARADOR>. {
+	line_error("No se ha reconocido la cabecera de la tabla");
+	//printf(" · SEPARADOR COMPLETO!\n");
+	BEGIN(P2_IGNORE);
+}
+
 <P1_COMPLETA>. {
 	line_error("No se ha reconocido la cabecera de la tabla");
 	//printf("CABECERA INCORRECTA (%s)\n", yytext);
@@ -179,7 +185,7 @@ NOTA		([0-9]\.[0-9]{1,2}|10\.0{1,2})
 }
 
 <P3_NIF>. {
-	line_error("NIF incorrecto");
+	line_error("Se esperaba tabulador después del NIF");
 	BEGIN(P3_IGNORE);
 }
 
@@ -214,7 +220,7 @@ NOTA		([0-9]\.[0-9]{1,2}|10\.0{1,2})
 }
 
 <P3_NOMBRE>. {
-	line_error("Nombre incorrecto");
+	line_error("Se esperaba tabulador después del nombre");
 	BEGIN(P3_IGNORE);
 }
 

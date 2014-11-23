@@ -1,0 +1,45 @@
+Práctica 1.
+
+Es un programa que lee de la entrada estándar un listado bien estructurado, y 
+muestra aquellos alumnos aprobados o suspensos. Los errores dse indican al 
+final.
+
+El código para Flex se encuentra en el archivo "p1.l". Para su compilación basta 
+con ejecutar:
+
+	$ make
+
+Sin embargo, se ha creado un script, "do.sh" que automáticamente compila, 
+ejecuta el programa con el ejemplo de prueba, y también muestra el ejemplo 
+original para contrastar la salida.
+
+	$ ./do.sh
+	Compilando...
+	flex p1.l
+	gcc -g -lbsd -lfl lex.yy.c -o p1
+
+	--------------- P1 --------------
+	- Asignatura: Procesamiento de Lenguajes 
+	- Curso: 2014/2015
+	- Alumnos suspensos:
+	12345678-X;Alonso Calvo, Andrés
+	- Alumnos aprobados:
+	11223344-Z;Alonso Barreiro, Ana;5.68
+	- Errores:
+	Línea 4: NIF incorrecto
+	Línea 6: Nota incorrecta
+	------------ Original -----------
+	     1  Procesamiento de Lenguajes - Curso 2014/2015
+	     2  NIF     Apellido1 Apellido2, Nombre     Nota
+	     3  11223344-Z      Alonso Barreiro, Ana    5.68
+	     4  AAAAAAAA-B      Alonso Barros, Antonio  4.8
+	     5  12345678-X      Alonso Calvo, Andrés    2.8
+	     6  13345678-X      Barreiro Calvo, Luis    35.68
+
+Se incluye también el ejemplo más exhaustivo, "test1.txt".
+
+Nota: Precisa las bibliotecas de bsd (libsd) para emplear strlcpy y strlcat.
+
+Para probar cualquier archivo emplear la entrada estándar:
+
+	$ cat testX.txt | ./p1
