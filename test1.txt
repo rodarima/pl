@@ -3,6 +3,8 @@ NIF	Apellido1 Apellido2, Nombre	Nota
 Caca de la vaca - Curso 20143/2015
 NIF	Apellido1 Apellido2, Nombre	Nota
 Caca de la vaca - Curso 2014/2015
+NIF	Apellido2 Apellido3, Nombre	Nota
+Caca de la vaca - Curso 201a4/2015
 NIF	Apellido1 Apellido2, Nombre	Nota
 12345678-A	sacare un, zeroo	0.00
 12345678-AB	mi dni, apestaaa	0.00
