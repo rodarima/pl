@@ -1,0 +1,12 @@
+1,Alberto,López,Director técnico,2000
+2,Antonio,Alonso Bueno,Analista de sistemas,2000
+3,Belén,López,Comercial,2003
+4,Carlos,Castro Porto,Comercial,2000
+5,Elena,Costa Costa,Analista de redes,2001
+6,Felipe,Bueno,Programador,2001
+7,Gloria,Prieto,Analista,2000
+8,Javier,Martínez López,Operador de sistemas y redes,2002
+9,Luis,Vilar Santos,Operador de sistemas y redes,2001
+10,María,López,Programadora,2004
+11,Antonio,Pérez Sánchez,Programador,2000
+12,Javier,Rodríguez Mota,Programador,2004
