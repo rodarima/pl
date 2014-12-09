@@ -5,6 +5,7 @@
 #include <stdarg.h>
 #define MAX_EMP	100
 #define MAX_BUF	500
+#define N_COLS	5
 
 struct emp
 {
@@ -13,6 +14,14 @@ struct emp
 	char apellidos[200];
 	char puesto[100];
 	char fecha[10];
+};
+
+int columns = 0;
+int num_emp = 0;
+struct col_name_s
+{
+	char *name;
+	int flag;
 };
 
 struct emp emps[MAX_EMP];
@@ -39,6 +48,58 @@ void yyerror(char *s, ...)
 	fprintf(stderr, "\n");
 }
 
+struct col_name_s cn[5] = {
+	{"idEmpleado",	1},
+	{"nombre",	2},
+	{"apellidos",	4},
+	{"puesto",	8},
+	{"anho",	16}
+};
+
+void addcolumn(char *str)
+{
+	int i;
+	for(i=0; i<N_COLS; i++)
+	{
+		if(strcmp(str, cn[i].name) == 0)
+		{
+			columns |= cn[i].flag;
+			break;
+		}
+	}
+	
+}
+
+void select()
+{
+	int i,j;
+	for(i=0; i<num_emp; i++)
+	{
+		if(columns & 1)
+		{
+			printf("%d\t", emps[i].id);
+		}
+		if(columns & 2)
+		{
+			printf("%s\t", emps[i].nombre);
+		}
+		if(columns & 4)
+		{
+			printf("%s\t", emps[i].apellidos);
+		}
+		if(columns & 8)
+		{
+			printf("%s\t", emps[i].puesto);
+		}
+		if(columns & 16)
+		{
+			printf("%s\t", emps[i].fecha);
+		}
+		printf("\n");
+	}
+	columns = 0;
+}
+
 %}
 
 %union{
@@ -57,11 +118,17 @@ void yyerror(char *s, ...)
 */
 %start S
 %%
-S : SELECT ALL FROM TABLE SEMICOLON {printf("NAME(%s)\n", $4);}
-S : SELECT COLS FROM TABLE SEMICOLON {}
-TABLE : NAME	{printf("TABLE(%s)\n", $1); $$ = $1;}
-COLS : NAME	{printf("COL(%s)\n", $1);}
-COLS : NAME COMMA COLS	{printf("COL(%s)+", $1);}
+S : SENTENCES {}
+SENTENCES : SENTENCE SEMICOLON | SENTENCE SEMICOLON SENTENCES {}
+SENTENCE : SEN_SELECT {}
+
+SEN_SELECT : SELECT COLS SEN_FROM {printf("SELECT %d\n", columns);select();}
+SEN_SELECT : SELECT ALL SEN_FROM {columns = 31; printf("SELECT *\n"); select();}
+SEN_FROM : FROM TABLE {}
+
+TABLE : NAME			{printf("TABLE %s\n", $1); $$ = $1;}
+COLS : NAME			{addcolumn($1);}
+COLS : NAME COMMA COLS		{addcolumn($1);}
 %%
 
 int read_input(char *file)
@@ -87,6 +154,7 @@ int read_input(char *file)
 		strcpy(e->fecha, strtok(NULL, ",\n"));
 		printf("%d, %s, %s, %s, %s\n", 
 			e->id, e->nombre, e->apellidos, e->puesto, e->fecha);
+		num_emp++;
 	}
 
 	fclose(f);

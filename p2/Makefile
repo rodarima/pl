@@ -1,12 +1,13 @@
 FUENTE = sql
 PRUEBA = sql.txt
+CFLAGS = -g
 
 all: compile run
 
 compile:
 	flex $(FUENTE).l
 	bison -o $(FUENTE).tab.c $(FUENTE).y -yd
-	gcc -o $(FUENTE) lex.yy.c $(FUENTE).tab.c -lfl -ly
+	gcc -g -o $(FUENTE) lex.yy.c $(FUENTE).tab.c -lfl -ly
 
 run:
 	./$(FUENTE) emp.txt < $(PRUEBA)
