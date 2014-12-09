@@ -42,12 +42,14 @@ void yyerror(char *s, ...)
 %}
 
 %union{
-	int intval;
-	double floatval;
-	char *strval;
-	int subtok;
+	int i;
+	double d;
+	char *s;
 }
-%token SELECT ALL
+%token SELECT ALL NUMBER NAME FROM SEMICOLON COMMA
+%type <i> NUMBER
+%type <s> NAME
+%type <s> TABLE
 /*
 %token <valInt> HORA
 %token <valFloat> VALOR_TEMPERATURA
@@ -55,7 +57,11 @@ void yyerror(char *s, ...)
 */
 %start S
 %%
-S : SELECT  {printf("Select all\n");}
+S : SELECT ALL FROM TABLE SEMICOLON {printf("NAME(%s)\n", $4);}
+S : SELECT COLS FROM TABLE SEMICOLON {}
+TABLE : NAME	{printf("TABLE(%s)\n", $1); $$ = $1;}
+COLS : NAME	{printf("COL(%s)\n", $1);}
+COLS : NAME COMMA COLS	{printf("COL(%s)+", $1);}
 %%
 
 int read_input(char *file)

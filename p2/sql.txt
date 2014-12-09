@@ -1,1 +1,1 @@
-SELECT *
+SELECT name, date FROM Empleados;
