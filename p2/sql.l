@@ -13,13 +13,19 @@ void emit(char *s, ...);
 
 %%
 
-"SELECT" { return SELECT; }
-"*" { return ALL; }
-"FROM" { return FROM; }
-[a-zA-Z][a-zA-Z0-9]* { yylval.s = strdup(yytext); return NAME; }
-[0-9]* { yylval.i = atoi(yytext); return NUMBER; }
-";" {return SEMICOLON;}
-"," {return COMMA;}
+"SELECT"		{ return SELECT; }
+"WHERE"			{ return WHERE; }
+"FROM"			{ return FROM; }
+
+"*"			{ return ALL; }
+";"			{ return SEMICOLON; }
+","			{ return COMMA; }
+"="			{ return EQUAL; }
+">"			{ return GREATER; }
+"<"			{ return LESS; }
+
+[a-zA-Z][a-zA-Z0-9]*	{ yylval.s = strdup(yytext); return STRING; }
+[0-9]*			{ yylval.i = atoi(yytext); return NUMBER; }
 
 [ \t\n] ;
 . yyerror("Strange char %s", yytext);

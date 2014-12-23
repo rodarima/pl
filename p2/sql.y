@@ -6,6 +6,7 @@
 #define MAX_EMP	100
 #define MAX_BUF	500
 #define N_COLS	5
+#define TABLE_NAME	"Empleados"
 
 struct emp
 {
@@ -100,6 +101,16 @@ void select()
 	columns = 0;
 }
 
+char *get_table(char *str)
+{
+	if(strcmp(str, TABLE_NAME))
+	{
+		printf("Tabla no encontrada: %s", str);
+		exit(1);
+	}
+	return str;
+}
+
 %}
 
 %union{
@@ -107,10 +118,10 @@ void select()
 	double d;
 	char *s;
 }
-%token SELECT ALL NUMBER NAME FROM SEMICOLON COMMA
+%token SELECT ALL NUMBER STRING FROM SEMICOLON COMMA EQUAL GREATER LESS WHERE
 %type <i> NUMBER
-%type <s> NAME
-%type <s> TABLE
+%type <s> STRING
+%type <s> column_name
 /*
 %token <valInt> HORA
 %token <valFloat> VALOR_TEMPERATURA
@@ -118,17 +129,46 @@ void select()
 */
 %start S
 %%
-S : SENTENCES {}
-SENTENCES : SENTENCE SEMICOLON | SENTENCE SEMICOLON SENTENCES {}
-SENTENCE : SEN_SELECT {}
 
-SEN_SELECT : SELECT COLS SEN_FROM {printf("SELECT %d\n", columns);select();}
-SEN_SELECT : SELECT ALL SEN_FROM {columns = 31; printf("SELECT *\n"); select();}
-SEN_FROM : FROM TABLE {}
+S
+	: queries {}
 
-TABLE : NAME			{printf("TABLE %s\n", $1); $$ = $1;}
-COLS : NAME			{addcolumn($1);}
-COLS : NAME COMMA COLS		{addcolumn($1);}
+queries
+	: query SEMICOLON | query SEMICOLON queries {}
+
+query
+	: select {}
+
+select
+	: SELECT columns from where 	{ select(); }
+	| SELECT ALL from where 	{ columns = 31; printf("SELECT *\n"); select();}
+
+where
+	: WHERE value operator value
+
+value
+	: STRING
+	| NUMBER
+
+operator
+	: EQUAL
+	| GREATER
+	| LESS
+
+from
+	: FROM table {}
+
+table
+	: STRING			{ get_table($1); }
+
+columns
+	: column_name			{ add_column($1); }
+	| column_name COMMA columns	{ add_column($1); }
+
+column_name
+	: STRING			{ $$ = get_column($1); }
+
+
 %%
 
 int read_input(char *file)
