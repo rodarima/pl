@@ -1,0 +1,12 @@
+Para realizar consultas con cadenas de texto que contienen caracteres especiales 
+añada dobles comillas (") al texto para que sean reconocidos.
+
+Ejemplo:
+
+	SELECT * FROM Empleados WHERE nombre = "Belén";
+
+De igual modo, si desea comparar un número como texto, emplee las comillas:
+
+Ejemplo:
+
+	SELECT * FROM Empleados WHERE anho = "2000";
