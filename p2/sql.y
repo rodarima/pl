@@ -7,7 +7,7 @@
 #define MAX_EMP	100
 #define MAX_BUF	500
 #define N_COLS	5
-#define TABLE_NAME	"Empleados"
+#define TABLE_NAME	"Empleado"
 #define COL_SPACE 2
 
 struct
@@ -112,6 +112,11 @@ void print_col(int max, char *col)
 	}
 }
 
+void clear_select()
+{
+	g.scolumns = 0;
+}
+
 void do_select()
 {
 	//printf("CMP = %d\n", g.cmp);
@@ -176,7 +181,8 @@ void do_select()
 		}
 		printf("\n");
 	}
-	g.scolumns = 0;
+	
+	clear_select();
 }
 
 char *get_table(char *str)

@@ -10,7 +10,9 @@ compile:
 	gcc -g -o $(FUENTE) lex.yy.c $(FUENTE).tab.c -lfl -ly
 
 run:
-	./$(FUENTE) emp.txt < $(PRUEBA)
+	#./$(FUENTE) emp.txt < $(PRUEBA)
+	cat test.txt
+	cat test.txt | ./sql emp.txt
 
 clean:
 	rm $(FUENTE) lex.yy.c $(FUENTE).tab.c $(FUENTE).tab.h

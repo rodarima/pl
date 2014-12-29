@@ -6,7 +6,6 @@
 #include "sql.tab.h"
 
 void yyerror(char *s, ...);
-void emit(char *s, ...);
 
 %}
 

@@ -1,12 +1,67 @@
+2014D29
+
+Compilación
+-----------
+
+Para la compilación, ejecutar simplemente:
+
+	$ make
+
+Esto compilará el programa, y lo probará con el fichero de prueba emp.txt, 
+realizando las consultas que aparecen en test.txt. La salida de las consultas se 
+muestra por pantalla.
+
+Ejecución
+---------
+
+Si desea realizar una consulta, primero ejecute sql, con el archivo que contiene 
+la base de datos como parámetro:
+
+	$ ./sql archivo-basedatos.txt
+
+De esta forma entrará en el intérprete interactivo, donde podrá probar las 
+consultas.
+
+Si prefiere automatizarlo, puede emplear tuberías:
+
+	$ cat consultas.txt | ./sql archivo-basedatos.txt
+
+Importante, la base de datos debe contener el formato especificado:
+
+	CREATE TABLE Empleado (
+		idEmpleado BIGINT NOT NULL PRIMARY KEY,
+		nombre VARCHAR(100) NOT NULL,
+		apellidos VARCHAR(200) NOT NULL,
+		puesto VARCHAR(100) NOT NULL,
+		anho CHAR(4) NOT NULL
+	);
+
+Y mantener el estilo en csv:
+
+	1,Alberto,López,Director técnico,2000
+	2,Antonio,Alonso Bueno,Analista de sistemas,2000
+	3,Belén,López,Comercial,2003
+	...
+
+Además, debe estar codificado en UTF-8, para que los caracteres especiales sean 
+reconocidos adecuadamente. Si desea convertir de latin1 a utf8, puede emplear 
+iconv:
+
+	$ iconv -f latin1 -t utf8 empleados.latin1 -o empleados.utf8
+
+Notas
+-----
+
 Para realizar consultas con cadenas de texto que contienen caracteres especiales 
 añada dobles comillas (") al texto para que sean reconocidos.
 
 Ejemplo:
 
-	SELECT * FROM Empleados WHERE nombre = "Belén";
+	SELECT * FROM Empleado WHERE nombre = "Belén";
 
-De igual modo, si desea comparar un número como texto, emplee las comillas:
+De igual modo, si desea comparar un número como texto (anho), emplee las 
+comillas:
 
 Ejemplo:
 
-	SELECT * FROM Empleados WHERE anho = "2000";
+	SELECT * FROM Empleado WHERE anho = "2000";

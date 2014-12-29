@@ -1,0 +1,6 @@
+SELECT * FROM Empleado;
+SELECT nombre,apellidos FROM Empleado;
+SELECT * FROM Empleado WHERE nombre = "Belén";
+SELECT anho FROM Empleado WHERE nombre = "Belén";
+SELECT * FROM Empleado WHERE anho = "2000";
+SELECT * FROM Empleado WHERE idEmpleado > 3;
