@@ -1,0 +1,321 @@
+2014D29
+
+Indroducción.
+-------------
+cs es una herramienta que permite ayudar al usuario a manejar "indent" de forma 
+más sencilla.
+
+indent, es una herramienta que modifica el estilo del código fuente de un 
+programa en C, de la manera en la que le sea indicado. Para especificar el 
+estilo se utilizan una serie de opciones que identifican sus aspectos. Por 
+ejemplo:
+
+Para especificar que deseamos que en un "if" abrimos el corchete en la misma 
+línea, frente a abrirlo en la línea siguiente, debe emplearse la opción -br.
+
+Empleando -br:
+
+	if (is_true) {
+		do_something();
+	}
+
+Empleando -bl con indentación 0, -bli0:
+
+	if (is_true)
+	{
+		do_something();
+	}
+
+O por ejemplo, si prefiere utilizar espacios para marcar la indentación o sin 
+embargo prefiere tabuladores, existen también opciones que lo regulan.
+
+Para que sirve cs.
+------------------
+cs permite obtener una configuración de algunas de las opciones más populares 
+del código fuente, analizando directamente un código de ejemplo proporcionado 
+por el usuario.
+
+De esta manera, no necesita recordar el nombre de estas opciones, y puede 
+cambiarlo de una forma mucho más sencilla.
+
+Opciones reconocidas
+--------------------
+cs permite reconocer las siguientes características del estilo:
+
+o Posición de los corchetes al comenzar una función:
+
+	int main() {
+
+	----------------
+
+	int main()
+	{
+
+o Posición de los corchetes en las declaraciones:
+
+	if(hope) {
+
+	----------------
+
+	if(hope)
+	{
+
+o Posición de los corchetes en struct o enum:
+
+	struct pack_t {
+
+	----------------
+
+	struct pack_t
+	{
+
+o Espacios después de las estructuras if, for o while:
+
+	if(x > 50)
+
+	-------------------------
+
+	if (x > 50)
+
+		. . .
+
+	for(i = 0; i < 10; i++)
+	
+	-------------------------
+	
+	for (i = 0; i < 10; i++)
+	
+		. . .
+	
+	while(1)
+
+	-------------------------
+
+	while (1)
+
+o Tipo de tabulación, si se trata de espacios, o se emplean sólo tabuladores.
+
+o En caso de tabulación con espacios, que tamaño tiene la tabulación
+
+	int main() {
+	  int a = 0;
+	  if(a) {
+	    a++;
+	  }
+	}
+	
+	-------------------------
+
+	int main() {
+	    int a = 0;
+	    if(a) {
+		a++;
+	    }
+	}
+
+Heurística en la detección de la indentación
+--------------------------------------------
+Para determinar el tipo de indentación, se emplea una heurística, que mide el 
+número de líneas indentadas con tabuladores, frente a aquellas que tienen 
+espacios. El tipo de tabulación seleccionado es aquel más frecuente.
+
+En el caso de la indentación por tabuladores, se emplea un sólo tabulador por 
+cada cambio de bloque.
+
+En el caso de los espacios, se realiza un recuento de que tabulación se emplea 
+en cada línea. Luego se estima, que número de indentación ofrecería una 
+tabulación adecuada, eligiendo el maximo común divisor, de entre todas las 
+líneas.
+
+Por ejemplo, si en el código existen líneas con indentación de  4, 8 y 12, la 
+indentación elegida será 4, pues divide a 4, 8, y 12.
+
+
+Configuración para indent
+-------------------------
+Todas estas opciones se escriben por la salida estándar en cs. Para usarlas 
+automáticamente con indent, puede escribirlas en ".indent.pro". indent cargará 
+estas opciones por defecto. cs además de reconocer estas opciones, elige por 
+defecto el estilo del kernel de linux con indentación de corchetes = 0.
+
+Además de estas opciones, puede incluir aquellas que desee, y que proporciona 
+indent, en el fichero ".indent.pro".
+
+Uso
+---
+Para facilitar su uso, se añade un script, que escribe la configuración 
+directamente en el fichero ".indent.pro". Modifique solo el fichero test.c para 
+adaptarlo a su gusto personal, y a continuación ejecute:
+
+	$ ./do.sh
+
+Esto ejecutará cs, y mostrará por pantalla el análisis. Luego ejecutará una 
+comparación empleando diff entre la configuración que acaba de cambiar, y un 
+fichero como test.c, que no tiene ningún estilo, ni cambios de línea, al que se 
+le ha aplicado el estilo que ha especificado. El resultado debería asemejarse a 
+la plantilla que modificó con su estilo.
+
+Ejemplos de uso:
+----------------
+
+Ejemplo 1:
+
+	#include <stdio.h>
+
+	void do_magic(int hats) {
+	  int a_lot_of_magic = hats / 2;
+	  printf("Magic %d ", a_lot_of_magic);
+	}
+
+	int main(int argc, char *argv[]) {
+	  int i;
+	  double hat = 1.0;
+	  
+	  struct magic {
+	    int a_lot;
+	    int more_magic;
+	    char is_magician;
+	  } man;
+
+	  if (i == 0)
+	  {
+	    printf("IT'S MAGIC!\n");
+	  }
+	  
+	  for (i = 0; i < 10; i++)
+	  {
+	    hat += hat * 2;
+	  
+	    if (hat == 10)
+	    {
+	      man.is_magician = 1;
+	      do_magic(100);
+	    }
+	  }
+	  
+	  while (man.is_magician)
+	  {
+	    if (man.more_magic)
+	      do_magic(2);
+	  }
+	  
+	  return 0;
+	}
+
+Análisis con cs:
+
+	-linux -bli0 -brf -brs -bl -sai -saf -saw -nut -i2
+
+	o Abrir los corchetes en la misma línea para la declaración de las 
+	funciones, pero en la línea siguiente en el resto.
+	o Añadir un espacio despues de if, for y while.
+	o No usar indentación con tabuladores, si no con espacios de tamaño 2.
+
+Ejemplo 2:
+
+	#include <stdio.h>
+
+	void do_magic(int hats) {
+		int a_lot_of_magic = hats / 2;
+		printf("Magic %d ", a_lot_of_magic);
+	}
+
+	int main(int argc, char *argv[]) {
+		int i;
+		double hat = 1.0;
+		
+		struct magic {
+			int a_lot;
+			int more_magic;
+			char is_magician;
+		};
+
+		struct magic man;
+
+		if(i == 0) {
+			printf("IT'S MAGIC!\n");
+		}
+		
+		for (i = 0; i < 10; i++) {
+			hat += hat * 2;
+		
+			if(hat == 10) {
+				man.is_magician = 1;
+				do_magic(100);
+			}
+		}
+		
+		while (man.is_magician) {
+			if(man.more_magic)
+				do_magic(2);
+		}
+		
+		return 0;
+	}
+
+Análisis con cs:
+
+	-linux -bli0 -br -brf -brs -nsai -saf -saw -ut -ts8
+
+	o Abrir los corchetes siempre en la misma línea.
+	o Añadir un espacio depues de for y while, pero no de if.
+	o Usar tabuladores.
+
+Ejemplo 3:
+
+	#include <stdio.h>
+
+	void do_magic(int hats)
+	{
+		int a_lot_of_magic = hats / 2;
+		printf("Magic %d ", a_lot_of_magic);
+	}
+
+	int main(int argc, char *argv[])
+	{
+		int i;
+		double hat = 1.0;
+		
+		struct magic
+		{
+			int a_lot;
+			int more_magic;
+			char is_magician;
+		};
+
+		struct magic man;
+
+		if(i == 0)
+		{
+			printf("IT'S MAGIC!\n");
+		}
+		
+		for(i = 0; i < 10; i++)
+		{
+			hat += hat * 2;
+		
+			if(hat == 10)
+			{
+				man.is_magician = 1;
+				do_magic(100);
+			}
+		}
+		
+		while(man.is_magician)
+		{
+			if(man.more_magic)
+				do_magic(2);
+		}
+		
+		return 0;
+	}
+
+Análisis con cs: (mi estilo preferido)
+
+	-linux -bli0 -bl -blf -bls -nsai -nsaf -nsaw -ut -ts8
+
+	o Abrir los corchetes siempre en la línea siguiente.
+	o No añadir un espacio depues de if, for o while.
+	o Usar tabuladores.
+
+

@@ -1,9 +1,9 @@
-#include <stdio.h>
 
-void do_magic(int hats)
+int do_magic(int hats)
 {
-	int a_lot_of_magic = hats / 2;
-	printf("Magic %d ", a_lot_of_magic);
+	int a_lot_of_magic = hats/2;
+
+	return a_lot_of_magic;
 }
 
 int main(int argc, char *argv[])
@@ -16,30 +16,21 @@ int main(int argc, char *argv[])
 		int a_lot;
 		int more_magic;
 		char is_magician;
-	};
-
-	struct magic man;
-
+	} man;
+	
 	if(i == 0)
 	{
 		printf("IT'S MAGIC!\n");
 	}
 	
-	for(i = 0; i < 10; i++)
+	for(i=0; i<10; i++)
 	{
-		hat += hat * 2;
-	
+		hat += hat*2;
 		if(hat == 10)
 		{
 			man.is_magician = 1;
 			do_magic(100);
 		}
-	}
-	
-	while(man.is_magician)
-	{
-		if(man.more_magic)
-			do_magic(2);
 	}
 	
 	return 0;

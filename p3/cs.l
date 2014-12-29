@@ -10,6 +10,16 @@ IS                      (u|U|l|L)*
 #include "cs.tab.h"
 
 void count();
+int is_new_line = 1;
+int spaces;
+int tabs;
+int spaces_count[80];
+int tabs_count[80];
+int column = 0;
+int sai=0, nsai=0;
+int saf=0, nsaf=0;
+int saw=0, nsaw=0;
+
 %}
 
 %%
@@ -28,9 +38,11 @@ void count();
 "enum"                  { count(); return(ENUM); }
 "extern"                { count(); return(EXTERN); }
 "float"                 { count(); return(FLOAT); }
-"for"                   { count(); return(FOR); }
+"for "                  { count(); saf++; return(FOR); }
+"for"                   { count(); nsaf++; return(FOR); }
 "goto"                  { count(); return(GOTO); }
-"if"                    { count(); return(IF); }
+"if "                   { count(); sai++; return(IF); }
+"if"                    { count(); nsai++; return(IF); }
 "int"                   { count(); return(INT); }
 "long"                  { count(); return(LONG); }
 "register"              { count(); return(REGISTER); }
@@ -46,7 +58,9 @@ void count();
 "unsigned"              { count(); return(UNSIGNED); }
 "void"                  { count(); return(VOID); }
 "volatile"              { count(); return(VOLATILE); }
-"while"                 { count(); return(WHILE); }
+"while "                { count(); saw++; return(WHILE); }
+"while"                 { count(); nsaw++; return(WHILE); }
+"#".*			{ /* ignore */}
 
 {L}({L}|{D})*           { count(); return(check_type()); }
 
@@ -107,10 +121,13 @@ L?\"(\\.|[^\\"])*\"     { count(); return(STRING_LITERAL); }
 "^"                     { count(); return('^'); }
 "|"                     { count(); return('|'); }
 "?"                     { count(); return('?'); }
-"\n"                    { count(); new_line(); return('\n'); }
+"\n"                    { column=0; fprintf(stderr, "\n"); if(!is_new_line) { is_new_line = 1; return('\n'); } }
 
-[ \t\v\f]             { count(); }
-.                       { printf("¿%s?", yytext);/* ignore bad characters */ }
+" "			{ if(is_new_line) { spaces++; fprintf(stderr, ">");} else fprintf(stderr, " ");}
+\t			{ if(is_new_line) { tabs++;   } fprintf(stderr, "------->"); }
+
+[ \v\f]             	{ fprintf(stderr, "comi(%s)", yytext); count(); }
+.                       { fprintf(stderr, "¿%s?", yytext);/* ignore bad characters */ }
 
 %%
 
@@ -120,13 +137,29 @@ yywrap()
 }
 
 
+void thing()
+{
+	if(is_new_line)
+	{
+		//printf("Spaces: %d", spaces);
+		spaces_count[spaces]++;
+		tabs_count[tabs]++;
+	}
+	spaces = 0;
+	tabs = 0;
+}
+
+
 comment()
 {
+	//thing();
+	//is_new_line = 0;
         char c, c1;
 
 loop:
         while ((c = input()) != '*' && c != 0)
-                putchar(c);
+                //putchar(c);
+		fprintf(stderr, "%c", c);
 
         if ((c1 = input()) != '/' && c != 0)
         {
@@ -135,22 +168,15 @@ loop:
         }
 
         if (c != 0)
-                putchar(c1);
+		fprintf(stderr, "%c", c1);
+                //putchar(c1);
 }
 
-new_line()
-{
-        int c;
-
-        while ((c = input()) == '\n');
-	if(c != EOF) unput(c);
-}
-
-
-int column = 0;
 
 void count()
 {
+	thing();
+	is_new_line = 0;
         int i;
 
         for (i = 0; yytext[i] != '\0'; i++)
@@ -161,7 +187,8 @@ void count()
                 else
                         column++;
 
-        ECHO;
+        //ECHO;
+	fprintf(stderr, "%s", yytext);
 }
 
 

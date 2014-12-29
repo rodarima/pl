@@ -464,8 +464,11 @@ function_separator
 	| '\n'	{op.blf++;}
 
 S
-	: translation_unit {printf("OK\n");}
-	| translation_unit '\n' {printf("OK\n");}
+	:
+	| translation_unit {fprintf(stderr, "OK\n");}
+	| translation_unit '\n' {fprintf(stderr, "OK\n");}
+	| S translation_unit {fprintf(stderr, "OK\n");}
+	| S translation_unit '\n' {fprintf(stderr, "OK\n");}
 	
 
 %%
@@ -473,6 +476,8 @@ S
 
 extern char yytext[];
 extern int column;
+extern int spaces_count[80];
+extern int tabs_count[80];
 
 yyerror(s)
 char *s;
@@ -481,18 +486,135 @@ char *s;
         fprintf(stdout, "\n%*s\n%*s\n", column, "^", column, s);
 }
 
+void print_spaces()
+{
+	int i;
+	fprintf(stderr, "Spaces stats:\n");
+	for(i = 0; i<80; i++)
+	{
+		if(spaces_count[i])
+			fprintf(stderr, "%d: %d\n", i, spaces_count[i]);
+	}
+	fprintf(stderr, "Tabs stats:\n");
+	for(i = 0; i<80; i++)
+	{
+		if(tabs_count[i])
+			fprintf(stderr, "%d: %d\n", i, tabs_count[i]);
+	}
+}
+
+int gcd(int a, int b)
+{
+	int c;
+	while(a != 0)
+	{
+		c = a;
+		a = b%a;
+		b = c;
+	}
+	return b;
+}
+
+void calculate_indentation_space()
+{
+	int i, j;
+	int max_spaces = 0;
+	int diferent_spaces = 0;
+	int indentation_max = 0;
+	int indentation = 0;
+	int gcd_table[80] = {0};
+	int gcd_table2[80] = {0};
+	
+	for(i = 79; i >= 0; i--)
+	{
+		if(spaces_count[i])
+		{
+			max_spaces = i;
+			break;
+		}
+	}
+
+	for(i = max_spaces; i > 0; i--)
+	{
+		for(j = 1; j<80; j++)
+		{
+			if(!spaces_count[j]) continue;
+			if(gcd(j, i) == i)
+			{
+				gcd_table2[i] += spaces_count[j];
+				gcd_table[i]++;
+			}
+		}
+		//if(gcd_table[i] && spaces_count[i]) printf("gcd %d = %d -> %d\n", i, gcd_table[i], gcd_table2[i]);
+	}
+
+	for(i = 1; i<=max_spaces; i++)
+	{
+		if((indentation_max < gcd_table2[i]) && spaces_count[i])
+		{
+			indentation = i;
+			indentation_max = gcd_table2[i];
+		}
+	}
+	//printf("La indentacion estimada es: %d espacios\n", indentation);
+	printf(" -i%d", indentation);
+	
+}
+
+void calculate_indentation()
+{
+	int i;
+	int tabs = 0, spaces = 0;
+	int use_tabs = 1;
+	for(i = 1; i<79; i++)
+	{
+		if(spaces_count[i]) spaces += spaces_count[i];
+		if(tabs_count[i]) tabs += tabs_count[i];
+
+	}
+	if(tabs < spaces)
+	{
+		use_tabs = 0;
+		printf(" -nut");
+		calculate_indentation_space();
+	}
+	else
+	{
+		printf(" -ut -ts8");
+	}
+	
+}
+
+extern int sai, nsai;
+extern int saf, nsaf;
+extern int saw, nsaw;
+
 int main(int argc, char *argv)
 {
 	yyparse();
+
+	printf("-linux -bli0");
+	
+	if(op.bl > op.br) printf(" -bl");
+	else printf(" -br");
 
 	if(op.blf > op.brf) printf(" -blf");
 	else printf(" -brf");
 	
 	if(op.bls > op.brs) printf(" -bls");
 	else printf(" -brs");
-	
-	if(op.bl > op.br) printf(" -bl");
-	else printf(" -br");
+
+	if(sai >= nsai) printf(" -sai");
+	else printf(" -nsai");
+
+	if(saf >= nsaf) printf(" -saf");
+	else printf(" -nsaf");
+
+	if(saw >= nsaw) printf(" -saw");
+	else printf(" -nsaw");
+
+	print_spaces();
+	calculate_indentation();
 	printf("\n");
 
 	return 0;
